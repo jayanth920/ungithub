@@ -47,15 +47,15 @@
 
 ### ✅ Phase 2: Repository Cloning & Parsing
 
-- [ ] Create CLI or backend script to clone a public GitHub repo using GitPython or subprocess
-- [ ] Recursively scan cloned repo for `.js`, `.ts`, `.py`, `.java`, `.go`, etc. files
-- [ ] Filter out `node_modules`, `.git`, `__pycache__`, `build`, etc.
-- [ ] For each file:
-- [ ] Read file content
-- [ ] Store file path and language
-- [ ] Split into code chunks (use LangChain TextSplitter or custom logic)
-- [ ] Associate each chunk with metadata (filepath, repo name, lang, etc.)
-- [ ] Save chunks locally in JSONL or memory for now
+- [x] Create CLI or backend script to clone a public GitHub repo using GitPython or subprocess
+- [x] Recursively scan cloned repo for `.js`, `.ts`, `.py`, `.java`, `.go`, etc. files
+- [x] Filter out `node_modules`, `.git`, `__pycache__`, `build`, etc.
+- [x] For each file:
+- [x] Read file content
+- [x] Store file path and language
+- [x] Split into code chunks (use LangChain TextSplitter or custom logic)
+- [x] Associate each chunk with metadata (filepath, repo name, lang, etc.)
+- [x] Save chunks locally in JSONL or memory for now
 
 ---
 
