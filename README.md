@@ -34,23 +34,104 @@
 
 ## 🧰 Features (Phase-wise)
 
-### ✅ Phase 1 (Setup)
-- [x] GitHub repo + project setup
-- [ ] FastAPI backend scaffolded
-- [ ] MongoDB Atlas w/ Vector Search
-- [ ] OpenAI API integration setup
+### ✅ Phase 1: Project Setup & Planning
 
-### 🔄 Phase 2 (Core Engine)
-- [ ] Clone and parse GitHub repos
-- [ ] Generate file-level and repo-level embeddings
-- [ ] Store and search using MongoDB Vector Search
-- [ ] Add natural language Q&A over codebase
+- [x] Create a new GitHub repo (public, with a clear README)
+- [ ] Initialize backend folder structure (Python/FastAPI or Node.js)
+- [x] Initialize frontend folder structure (Next.js, optional)
+- [x] Add .gitignore, LICENSE, basic README
+- [ ] Set up MongoDB Atlas cluster with Vector Search enabled
+- [ ] Set up OpenAI or Gemini API key access
+- [ ] Create a Trello/Notion board (or markdown checklist) to track tasks
 
-### 🎯 Phase 3 (Frontend & UX)
-- [ ] Build UI to enter repo URLs / browse insights
-- [ ] Add file tree explorer + smart search bar
-- [ ] Show AI summaries and explanations
-- [ ] Shareable insight links (e.g., `ungithub.com/org/repo#env-setup`)
+---
+
+### ✅ Phase 2: Repository Cloning & Parsing
+
+- [ ] Create CLI or backend script to clone a public GitHub repo using GitPython or subprocess
+- [ ] Recursively scan cloned repo for `.js`, `.ts`, `.py`, `.java`, `.go`, etc. files
+- [ ] Filter out `node_modules`, `.git`, `__pycache__`, `build`, etc.
+- [ ] For each file:
+  - [ ] Read file content
+  - [ ] Store file path and language
+  - [ ] Split into code chunks (use LangChain TextSplitter or custom logic)
+  - [ ] Associate each chunk with metadata (filepath, repo name, lang, etc.)
+- [ ] Save chunks locally in JSONL or memory for now
+
+---
+
+### ✅ Phase 3: Embeddings + MongoDB Vector Search Integration
+
+- [ ] Choose embedding model (OpenAI, HuggingFace, Gemini)
+- [ ] Generate embeddings for each code chunk
+- [ ] Connect to MongoDB Atlas (Python: `pymongo` + `pymongo.vector_search`)
+- [ ] Create schema:
+  - [ ] Fields: content, filepath, language, embedding (vector), repo name, etc.
+- [ ] Insert chunk docs into MongoDB collection
+- [ ] Create vector index on the embedding field
+- [ ] Test vector search: query for “auth middleware” or “database connection”
+
+---
+
+### ✅ Phase 4: AI Search + Summary Endpoint
+
+- [ ] Create FastAPI or Express route: `POST /query`
+- [ ] Input: natural language question + repo ID
+- [ ] Perform vector search using MongoDB Atlas
+- [ ] Return top-k chunks as context
+- [ ] Pass context + query to LLM to generate a summary/answer
+- [ ] Return final answer with citations (file paths)
+- [ ] Test endpoint with: “How is login handled?”, “Where is JWT used?”
+
+---
+
+### ✅ Phase 5: Static Code Analysis Features
+
+- [ ] **Env Var Checker:**
+  - [ ] Scan codebase for `process.env` / `os.environ` / `getenv` calls
+  - [ ] Extract used env keys
+  - [ ] Compare with `.env` / `.env.example` if present
+  - [ ] Output missing or unused keys
+- [ ] **API Endpoint Extractor:**
+  - [ ] Detect common route patterns (Express: `app.get('/route')`, Flask: `@app.route`)
+  - [ ] Extract HTTP methods + routes + file path
+  - [ ] Return as structured JSON
+- [ ] **Tech Stack Detector:**
+  - [ ] Identify `package.json`, `requirements.txt`, `go.mod`, etc.
+  - [ ] Parse and list major dependencies
+
+---
+
+### ✅ Phase 6: Optional Frontend
+
+- [ ] Scaffold a basic Next.js frontend
+- [ ] Build form: Enter GitHub URL → triggers backend clone & index
+- [ ] Build query input: Ask a question about the code
+- [ ] Display AI result with file references
+- [ ] List extracted endpoints, env vars, tech stack
+- [ ] Add loading states and error handling
+- [ ] Deploy frontend to Vercel (or keep CLI-only)
+
+---
+
+## ✅ Phase 7: Export / Google Integration
+
+- [ ] Allow exporting insights (env vars, endpoints) to CSV or JSON
+- [ ] Optional: Use Google Sheets API to log results to a new sheet
+- [ ] Optional: Google Drive integration to upload results (PDF or summary)
+
+---
+
+### ✅ Phase 8: Polish, Test, and Submit
+
+- [ ] Write clean README with install/setup/run instructions
+- [ ] Add screenshots or Loom demo
+- [ ] Record 3-min demo video (host on YouTube/Vimeo)
+- [ ] Host backend (e.g., Render, Railway, Google Cloud Run)
+- [ ] Host frontend (e.g., Vercel)
+- [ ] Add project + repo URLs to Devpost
+- [ ] Submit before June 17 @ 4:00 PM CDT
+
 
 ---
 
