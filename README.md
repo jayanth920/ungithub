@@ -37,7 +37,7 @@
 ### ✅ Phase 1: Project Setup & Planning
 
 - [x] Create a new GitHub repo (public, with a clear README)
-- [ ] Initialize backend folder structure (Python/FastAPI or Node.js)
+- [x] Initialize backend folder structure (Python/FastAPI or Node.js)
 - [x] Initialize frontend folder structure (Next.js, optional)
 - [x] Add .gitignore, LICENSE, basic README
 - [ ] Set up MongoDB Atlas cluster with Vector Search enabled
