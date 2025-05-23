@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-requests
-openai
 pymongo
+requests
 python-dotenv
+google-generativeai
