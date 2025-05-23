@@ -5,3 +5,5 @@ requests
 python-dotenv
 google-generativeai
 GitPython
+langchain
+tiktoken
