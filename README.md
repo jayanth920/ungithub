@@ -33,16 +33,15 @@
 ---
 
 ## 🧰 Features (Phase-wise)
-
+ 
 ### ✅ Phase 1: Project Setup & Planning
 
 - [x] Create a new GitHub repo (public, with a clear README)
 - [x] Initialize backend folder structure (Python/FastAPI or Node.js)
 - [x] Initialize frontend folder structure (Next.js, optional)
 - [x] Add .gitignore, LICENSE, basic README
-- [ ] Set up MongoDB Atlas cluster with Vector Search enabled
-- [ ] Set up OpenAI or Gemini API key access
-- [ ] Create a Trello/Notion board (or markdown checklist) to track tasks
+- [x] Set up MongoDB Atlas cluster with Vector Search enabled
+- [x] Set up OpenAI or Gemini API key access
 
 ---
 
@@ -52,10 +51,10 @@
 - [ ] Recursively scan cloned repo for `.js`, `.ts`, `.py`, `.java`, `.go`, etc. files
 - [ ] Filter out `node_modules`, `.git`, `__pycache__`, `build`, etc.
 - [ ] For each file:
-  - [ ] Read file content
-  - [ ] Store file path and language
-  - [ ] Split into code chunks (use LangChain TextSplitter or custom logic)
-  - [ ] Associate each chunk with metadata (filepath, repo name, lang, etc.)
+- [ ] Read file content
+- [ ] Store file path and language
+- [ ] Split into code chunks (use LangChain TextSplitter or custom logic)
+- [ ] Associate each chunk with metadata (filepath, repo name, lang, etc.)
 - [ ] Save chunks locally in JSONL or memory for now
 
 ---
@@ -66,7 +65,7 @@
 - [ ] Generate embeddings for each code chunk
 - [ ] Connect to MongoDB Atlas (Python: `pymongo` + `pymongo.vector_search`)
 - [ ] Create schema:
-  - [ ] Fields: content, filepath, language, embedding (vector), repo name, etc.
+- [ ] Fields: content, filepath, language, embedding (vector), repo name, etc.
 - [ ] Insert chunk docs into MongoDB collection
 - [ ] Create vector index on the embedding field
 - [ ] Test vector search: query for “auth middleware” or “database connection”
@@ -88,17 +87,17 @@
 ### ✅ Phase 5: Static Code Analysis Features
 
 - [ ] **Env Var Checker:**
-  - [ ] Scan codebase for `process.env` / `os.environ` / `getenv` calls
-  - [ ] Extract used env keys
-  - [ ] Compare with `.env` / `.env.example` if present
-  - [ ] Output missing or unused keys
+- [ ] Scan codebase for `process.env` / `os.environ` / `getenv` calls
+- [ ] Extract used env keys
+- [ ] Compare with `.env` / `.env.example` if present
+- [ ] Output missing or unused keys
 - [ ] **API Endpoint Extractor:**
-  - [ ] Detect common route patterns (Express: `app.get('/route')`, Flask: `@app.route`)
-  - [ ] Extract HTTP methods + routes + file path
-  - [ ] Return as structured JSON
+- [ ] Detect common route patterns (Express: `app.get('/route')`, Flask: `@app.route`)
+- [ ] Extract HTTP methods + routes + file path
+- [ ] Return as structured JSON
 - [ ] **Tech Stack Detector:**
-  - [ ] Identify `package.json`, `requirements.txt`, `go.mod`, etc.
-  - [ ] Parse and list major dependencies
+- [ ] Identify `package.json`, `requirements.txt`, `go.mod`, etc.
+- [ ] Parse and list major dependencies
 
 ---
 
