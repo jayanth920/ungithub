@@ -1,0 +1,33 @@
+# Python
+backend/venv/
+backend/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.env.*
+
+# FastAPI logs / temp
+*.log
+backend/.pytest_cache/
+backend/.mypy_cache/
+
+# Node.js / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/.env.*.local
+
+# VS Code
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Python egg
+*.egg-info/
+.eggs/
+
+# Jupyter (if you end up using notebooks for AI exploration)
+*.ipynb_checkpoints
