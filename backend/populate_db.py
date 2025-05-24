@@ -1,11 +1,12 @@
-# populate_db.py
-
 import json
 import os
+import logging
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import certifi
 from embedding import get_embedding  # Gemini embedding
+
+logger = logging.getLogger("uvicorn")
 
 load_dotenv()
 
@@ -37,4 +38,4 @@ with open("data/chunks.jsonl", "r") as f:
         collection.insert_one(doc)
         inserted_count += 1
 
-print(f"✅ Inserted {inserted_count} chunks into MongoDB")
+logger.info(f"✅ Inserted {inserted_count} chunks into MongoDB")
