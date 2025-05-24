@@ -61,26 +61,26 @@
 
 ### ✅ Phase 3: Embeddings + MongoDB Vector Search Integration
 
-- [ ] Choose embedding model (OpenAI, HuggingFace, Gemini)
-- [ ] Generate embeddings for each code chunk
-- [ ] Connect to MongoDB Atlas (Python: `pymongo` + `pymongo.vector_search`)
-- [ ] Create schema:
-- [ ] Fields: content, filepath, language, embedding (vector), repo name, etc.
-- [ ] Insert chunk docs into MongoDB collection
-- [ ] Create vector index on the embedding field
-- [ ] Test vector search: query for “auth middleware” or “database connection”
+- [x] Choose embedding model (OpenAI, HuggingFace, Gemini)
+- [x] Generate embeddings for each code chunk
+- [x] Connect to MongoDB Atlas (Python: `pymongo` + `pymongo.vector_search`)
+- [x] Create schema:
+- [x] Fields: content, filepath, language, embedding (vector), repo name, etc.
+- [x] Insert chunk docs into MongoDB collection
+- [x] Create vector index on the embedding field
+- [x] Test vector search: query for “auth middleware” or “database connection”
 
 ---
 
 ### ✅ Phase 4: AI Search + Summary Endpoint
 
-- [ ] Create FastAPI or Express route: `POST /query`
-- [ ] Input: natural language question + repo ID
-- [ ] Perform vector search using MongoDB Atlas
-- [ ] Return top-k chunks as context
-- [ ] Pass context + query to LLM to generate a summary/answer
-- [ ] Return final answer with citations (file paths)
-- [ ] Test endpoint with: “How is login handled?”, “Where is JWT used?”
+- [x] Create FastAPI or Express route: `POST /query`
+- [x] Input: natural language question + repo ID
+- [x] Perform vector search using MongoDB Atlas
+- [x] Return top-k chunks as context
+- [x] Pass context + query to LLM to generate a summary/answer
+- [x] Return final answer with citations (file paths)
+- [x] Test endpoint with: “How is login handled?”, “Where is JWT used?”
 
 ---
 
