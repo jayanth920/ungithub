@@ -7,12 +7,16 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 import certifi
+import logging
 from embedding import get_embedding
 from google import genai
 from main import process_repo
 from urllib.parse import urlparse
 
 load_dotenv()
+
+# Logger setup
+logger = logging.getLogger("uvicorn")
 
 # MongoDB setup
 client = MongoClient(os.getenv("MONGODB_URI"), tlsCAFile=certifi.where())
@@ -62,10 +66,14 @@ def query_codebase(request: QueryRequest):
     
     # Step 0: Check if repo is indexed
     repo_exists = collection.find_one({"repo_id": repo_id})
+    
+    if repo_exists:
+        logger.info(f"✅ Repo already indexed: {request.repo_url}")
 
     if not repo_exists:
         try:
-            process_repo(request.repo_url)  # repo_id is the full GitHub URL now
+            logger.info(f"🔍 Does not exist so processing repo: {request.repo_url}")
+            process_repo(request.repo_url)
             time.sleep(2)  # optional short wait to let MongoDB settle
             repo_exists = collection.find_one({"repo_id": repo_id})
             if not repo_exists:
@@ -109,10 +117,9 @@ Question:
 
 Answer:"""
 
-    response = genai_client._models.generate_content(model="gemini-2.0-flash",contents=prompt)
+    response = genai_client._models.generate_content(model="gemini-2.0-flash", contents=prompt)
 
     return {
         "answer": response.text,
         "citations": list(set(chunk["filepath"] for chunk in top_chunks))
-
     }
