@@ -3,7 +3,8 @@ uvicorn
 pymongo
 requests
 python-dotenv
-google-generativeai
+google-genai
 GitPython
 langchain
 tiktoken
+certifi
