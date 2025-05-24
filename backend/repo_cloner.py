@@ -1,11 +1,14 @@
-from git import Repo
-import os
+import subprocess
 import shutil
+import os
+import logging
 
-def clone_repo(repo_url, clone_dir="cloned_repo"):
-    if os.path.exists(clone_dir):
-        print(f"{clone_dir} already exists. Deleting...")
-        shutil.rmtree(clone_dir)
-    Repo.clone_from(repo_url, clone_dir)
-    print(f"✅ Cloned {repo_url} into {clone_dir}")
-    return clone_dir
+logger = logging.getLogger("uvicorn")
+
+def clone_repo(repo_url):
+    repo_name = repo_url.rstrip("/").split("/")[-1]
+    if os.path.exists(repo_name):
+        shutil.rmtree(repo_name)
+    subprocess.run(["git", "clone", repo_url, repo_name])
+    logger.info(f"✅ Cloned {repo_url} into {repo_name}")
+    return repo_name
