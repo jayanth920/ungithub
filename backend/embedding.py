@@ -1,6 +1,9 @@
 from google import genai
 import os
+import logging
 from dotenv import load_dotenv
+
+logger = logging.getLogger("uvicorn")
 
 load_dotenv()
 
@@ -17,4 +20,4 @@ def get_embedding(text: str) -> list[float]:
 if __name__ == "__main__":
     sample_text = "How does a binary search algorithm work?"
     embedding = get_embedding(sample_text)
-    print(f"Embedding: {embedding}")
+    logger.info(f"Embedding: {embedding}")
