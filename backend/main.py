@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
+import shutil
 import os
 import sys
 import json
 import certifi
+import logging
 from pymongo import MongoClient
 
 # Local modules
@@ -13,14 +15,20 @@ from chunker import split_into_chunks
 from save_jsonl import save_chunks_jsonl
 from embedding import get_embedding
 
+# Load environment variables
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 MONGODB_URI = os.getenv("MONGODB_URI")
 
+# MongoDB setup
 client = MongoClient(MONGODB_URI, tlsCAFile=certifi.where())
 collection = client["unrepo"]["code_chunks"]
 
+# FastAPI app
 app = FastAPI()
+
+# Logger setup
+logger = logging.getLogger("uvicorn")
 
 @app.get("/ping")
 def ping():
@@ -51,11 +59,9 @@ def process_repo(repo_url):
     save_chunks_jsonl(all_chunks)
 
     # Step 2: Populate DB
-    # FOR NOW I'LL EMPTY THE DB FOR SPACE, so we basically can have only 1 repo
-    collection.delete_many({})
+    # collection.delete_many({}) # FOR NOW I'LL EMPTY THE DB FOR SPACE, so we basically can have only 1 repo
+    # logger.info("🧹 Cleared collection")
     
-    # collection.delete_many({"repo_id": repo_name})  # clear only this repo's data
-
     inserted_count = 0
     with open("data/chunks.jsonl", "r") as f:
         for line in f:
@@ -72,7 +78,21 @@ def process_repo(repo_url):
             collection.insert_one(doc)
             inserted_count += 1
 
-    print(f"✅ Inserted {inserted_count} chunks into MongoDB for repo '{repo_name}'")
+    logger.info(f"✅ Inserted {inserted_count} chunks into MongoDB for repo '{repo_name}'")
+    
+    # Clean up cloned repo folder
+    try:
+        shutil.rmtree(repo_dir)
+        logger.info(f"🧹 Deleted cloned repo folder: {repo_dir}")
+    except Exception as e:
+        logger.warning(f"⚠️ Failed to delete cloned folder '{repo_dir}': {e}")
+        
+    # Clean up chunks file and data directory
+    try:
+        shutil.rmtree("data")
+        logger.info("🧹 Deleted 'data/' directory after uploading chunks")
+    except Exception as e:
+        logger.warning(f"⚠️ Failed to delete 'data/' directory: {e}")
 
 # CLI entry
 if __name__ == "__main__":
@@ -80,5 +100,5 @@ if __name__ == "__main__":
         repo_url = sys.argv[1]
         process_repo(repo_url)
     else:
-        print("💡 To process a GitHub repo: python main.py <github_repo_url>")
-        print("💡 To run API server: uvicorn main:app --reload")
+        logger.info("💡 To process a GitHub repo: python main.py <github_repo_url>")
+        logger.info("💡 To run API server: uvicorn main:app --reload")
