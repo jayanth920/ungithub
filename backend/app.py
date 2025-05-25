@@ -43,6 +43,12 @@ class QueryRequest(BaseModel):
     question: str
     repo_url: str
 
+def get_repo_id(repo_url: str) -> str:
+    parts = urlparse(repo_url).path.strip("/").split("/")
+    if len(parts) != 2:
+        raise ValueError("Invalid GitHub repo URL")
+    owner, repo = parts
+    return f"{owner}/{repo}"
 
 def is_valid_github_repo_url(url: str) -> bool:
     """
@@ -56,12 +62,11 @@ def is_valid_github_repo_url(url: str) -> bool:
         return len(parts) == 2
     except Exception:
         return False
-
+    
 
 @app.get("/ping")
 def ping():
     return {"message": "pong"}
-
 
 @app.post("/query")
 def query_codebase(request: QueryRequest):
@@ -98,7 +103,7 @@ def query_codebase(request: QueryRequest):
         )
 
     # Then proceed to indexing
-    repo_id = request.repo_url.rstrip("/").split("/")[-1]
+    repo_id = get_repo_id(request.repo_url)
     repo_exists = collection.find_one({"repo_id": repo_id})
 
     if not repo_exists:
