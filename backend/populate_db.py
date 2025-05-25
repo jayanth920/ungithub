@@ -17,7 +17,7 @@ collection = client["unrepo"]["code_chunks"]
 collection.delete_many({})
 
 # Set a repo_id (can be dynamic later)
-REPO_ID = "s2t-t2s"  # or extract dynamically based on repo you cloned
+REPO_ID = "jayanth920/s2t-t2s"  # or extract dynamically based on repo you cloned
 
 inserted_count = 0
 
