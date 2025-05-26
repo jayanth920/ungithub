@@ -12,7 +12,7 @@ from urllib.parse import urlparse
 from embedding import get_embedding
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException, Request, BackgroundTasks
+from fastapi import FastAPI, HTTPException, Request, BackgroundTasks, Query
 
 
 load_dotenv()
@@ -173,14 +173,13 @@ Answer:"""
     response = genai_client._models.generate_content(
         model="gemini-2.0-flash", contents=prompt
     )
-
     return {
         "answer": response.text,
-        "citations": list(set(chunk["filepath"] for chunk in top_chunks)),
+        "citations": list(set(
+            chunk["filepath"].replace("__", "/") for chunk in top_chunks
+        )),
     }
 
-
-from fastapi import Query
 
 @app.get("/repo-status")
 def check_repo_status(repo_id: str = Query(..., description="The repo ID (usually the repo name)")):
