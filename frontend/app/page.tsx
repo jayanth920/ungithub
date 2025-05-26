@@ -30,7 +30,8 @@ export default function UngithubChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [loadingMessage, setLoadingMessage] = useState("AI is thinking...")
-  const SERVER_URI = process.env.NEXT_PUBLIC_SERVER_URI
+  const LOCAL_URI = process.env.NEXT_PUBLIC_LOCAL_URI
+  const PROD_URI = process.env.NEXT_PUBLIC_PROD_URI
 
 
   useEffect(() => {
@@ -87,7 +88,7 @@ export default function UngithubChat() {
     }, 10 * 1000)
 
     try {
-      const res = await fetch(`${SERVER_URI}/query`, {
+      const res = await fetch(`${PROD_URI}/query`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ repo_url: urlValue, question: userMessage.content }),
@@ -109,7 +110,7 @@ export default function UngithubChat() {
           role: "assistant",
           timestamp: new Date(),
         }
-        
+
         setLoadingMessage("Repo is being indexed. Please wait...")
         setMessages((prev) => [...prev, indexingMessage])
         toast.info("⏳ Repo is being indexed. Try asking again in a few seconds.")
