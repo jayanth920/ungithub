@@ -210,7 +210,7 @@ export default function UngithubChat() {
 
         {/* Floating input area */}
         <div className="fixed bottom-0 left-0 w-full px-6 pb-6">
-          <div className="h-[25vh] max-w-4xl mx-auto bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl pl-4 pt-4 pb-4 shadow-2xl">
+          <div className="h-[22vh] max-w-4xl mx-auto bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl pl-4 pt-4 pb-4 shadow-2xl">
             <div className="flex h-fit">
               <textarea
                 ref={inputRef}
@@ -218,7 +218,7 @@ export default function UngithubChat() {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask me anything about the repository..."
-                className="w-[96%] rounded-lg resize-none flex-1 bg-white/5 border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20 focus:border-purple-400 p-2 h-[20vh]"
+                className="w-[96%] rounded-lg resize-none flex-1 bg-white/5 border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400/20 focus:border-purple-400 p-2 h-[17vh]"
                 disabled={isLoading}
               />
 
