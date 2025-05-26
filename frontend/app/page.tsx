@@ -30,6 +30,7 @@ export default function UngithubChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const [loadingMessage, setLoadingMessage] = useState("AI is thinking...")
+  const SERVER_URI = process.env.NEXT_PUBLIC_SERVER_URI
 
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function UngithubChat() {
     }, 10 * 1000)
 
     try {
-      const res = await fetch("http://localhost:8000/query", {
+      const res = await fetch(`${SERVER_URI}/query`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ repo_url: urlValue, question: userMessage.content }),
