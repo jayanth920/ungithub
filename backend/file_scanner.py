@@ -11,16 +11,21 @@ def get_code_files(base_path):
                 files.append(os.path.join(root, file))
     return files
 
-def read_and_metadata(file_path, repo_name):
+def read_and_metadata(file_path, repo_root, repo_id):
     try:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
+
+        rel_path = os.path.relpath(file_path, repo_root)
+        clean_filepath = f"{repo_id}/{rel_path}"
+
         return {
             "content": content,
-            "filepath": file_path,
-            "repo": repo_name,
+            "filepath": clean_filepath,
+            "repo": repo_id,
             "language": os.path.splitext(file_path)[1][1:]
         }
     except Exception as e:
         print(f"⚠️ Skipping {file_path}: {e}")
         return None
+
