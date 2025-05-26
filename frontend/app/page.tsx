@@ -11,6 +11,7 @@ import { ChatMessage } from "@/components/chat-message"
 import { LoadingDots } from "@/components/loading-dots"
 import { cn } from "@/lib/utils"
 import { toast } from 'sonner'
+import Image from "next/image"
 
 
 interface Message {
@@ -166,9 +167,10 @@ export default function UngithubChat() {
               <div className="p-6">
                 <div className="flex items-center justify-center mb-4">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                    {/* <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
                       <span className="text-xl">💬</span>
-                    </div>
+                    </div> */}
+                    <Image src="/logo.png" alt="Ungithub Logo" width={50} height={50} className="rounded-full" />
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent text-center">
                       Ungithub Chat
                     </h1>
