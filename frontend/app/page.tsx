@@ -170,7 +170,7 @@ export default function UngithubChat() {
                     </div> */}
                     <Image src="/logo.png" alt="Ungithub Logo" width={50} height={50} className="rounded-full" />
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent text-center">
-                      Ungithub Chat
+                      Ungithub
                     </h1>
                   </div>
                 </div>
