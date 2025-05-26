@@ -53,7 +53,7 @@ def process_repo(repo_url):
         all_chunks = []
 
         for file_path in files:
-            meta = read_and_metadata(file_path, repo_id)
+            meta = read_and_metadata(file_path, repo_dir, repo_id)
             if not meta:
                 continue
             chunks = split_into_chunks(meta["content"])
@@ -90,7 +90,7 @@ def process_repo(repo_url):
         logger.info(f"✅ Inserted {inserted_count} chunks into MongoDB for repo '{repo_id}'")
         print(f"✅ Inserted {inserted_count} chunks into MongoDB for repo '{repo_id}'")
 
-    # All temp files auto-cleaned here ✅
+    # All temp files auto cleaned here ✅
 
 # CLI entry
 if __name__ == "__main__":
