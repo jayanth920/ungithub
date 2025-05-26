@@ -18,6 +18,7 @@ interface Message {
   content: string
   role: "user" | "assistant"
   timestamp: Date
+  citations?: string[]
 }
 
 export default function UngithubChat() {
@@ -56,82 +57,86 @@ export default function UngithubChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-const handleSendMessage = async () => {
-  if (!inputValue.trim()) return
+  const handleSendMessage = async () => {
+    if (!inputValue.trim()) return
 
-  setLoadingMessage("AI is thinking...")
-  setIsLoading(true)
+    setLoadingMessage("AI is thinking...")
+    setIsLoading(true)
 
-  // ✅ Local check: 1000 characters or 2048 tokens max
-  if (inputValue.length > 1000) {
-    toast.error("❌ Your question is too long. Please shorten it to 1000 characters or less.")
-    return
-  }
-
-  const userMessage: Message = {
-    id: Date.now().toString(),
-    content: inputValue,
-    role: "user",
-    timestamp: new Date(),
-  }
-
-  setMessages((prev) => [...prev, userMessage])
-  setInputValue("")
-  setIsLoading(true)
-
-  // Timer to show alert after 10 seconds if still indexing
-  const indexingTimeout = setTimeout(() => {
-    toast.info("📦 Still reading your repo... try again in a few more seconds if nothing shows up.")
-  }, 10 * 1000)
-
-  try {
-    const res = await fetch("http://localhost:8000/query", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ repo_url: urlValue, question: userMessage.content }),
-    })
-
-    // Cancel the delayed indexing alert once response is back
-    clearTimeout(indexingTimeout)
-
-    const data = await res.json()
-
-    if (res.status === 202 && data.status === "indexing") {
-      // Repo is being indexed
-      setLoadingMessage("Repo is being indexed. Please wait...")
-      const indexingMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "🔍 Reading your repo... Please wait a moment and try again.",
-        role: "assistant",
-        timestamp: new Date(),
-      }
-
-      setMessages((prev) => [...prev, indexingMessage])
-      toast.info("⏳ Repo is being indexed. Try asking again in a few seconds.")
+    // ✅ Local check: 1000 characters or 2048 tokens max
+    if (inputValue.length > 1000) {
+      toast.error("❌ Your question is too long. Please shorten it to 1000 characters or less.")
       return
     }
 
-    if (!res.ok) {
-      toast.error(`⚠️ ${data.detail || "An error occurred."}`)
-      return
-    }
-
-    const aiMessage: Message = {
-      id: (Date.now() + 2).toString(),
-      content: data.answer || "Sorry, I couldn't find an answer.",
-      role: "assistant",
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: inputValue,
+      role: "user",
       timestamp: new Date(),
     }
 
-    setMessages((prev) => [...prev, aiMessage])
-  } catch (err) {
-    clearTimeout(indexingTimeout)
-    console.error("Error fetching AI response:", err)
-    toast.error("🚨 Failed to fetch response.")
-  } finally {
-    setIsLoading(false)
+    setMessages((prev) => [...prev, userMessage])
+    setInputValue("")
+    setIsLoading(true)
+
+    // Timer to show alert after 10 seconds if still indexing
+    const indexingTimeout = setTimeout(() => {
+      toast.info("📦 Still reading your repo... try again in a few more seconds if nothing shows up.")
+    }, 10 * 1000)
+
+    try {
+      const res = await fetch("http://localhost:8000/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ repo_url: urlValue, question: userMessage.content }),
+      })
+
+      // Cancel the delayed indexing alert once response is back
+      clearTimeout(indexingTimeout)
+
+      const data = await res.json()
+
+      console.log("data: ", data)
+
+      if (res.status === 202 && data.status === "indexing") {
+        // Repo is being indexed
+        console.log("Repo is being indexed. Please wait...")
+        const indexingMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: "🔍 Reading your repo... Please wait a moment and try again.",
+          role: "assistant",
+          timestamp: new Date(),
+        }
+        
+        setLoadingMessage("Repo is being indexed. Please wait...")
+        setMessages((prev) => [...prev, indexingMessage])
+        toast.info("⏳ Repo is being indexed. Try asking again in a few seconds.")
+        return
+      }
+
+      if (!res.ok) {
+        toast.error(`⚠️ ${data.detail || "An error occurred."}`)
+        return
+      }
+
+      const aiMessage: Message = {
+        id: (Date.now() + 2).toString(),
+        content: data.answer || "Sorry, I couldn't find an answer.",
+        role: "assistant",
+        timestamp: new Date(),
+        citations: data.citations || [],
+      }
+
+      setMessages((prev) => [...prev, aiMessage])
+    } catch (err) {
+      clearTimeout(indexingTimeout)
+      console.error("Error fetching AI response:", err)
+      toast.error("🚨 Failed to fetch response.")
+    } finally {
+      setIsLoading(false)
+    }
   }
-}
 
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -157,12 +162,12 @@ const handleSendMessage = async () => {
           <div className="max-w-4xl mx-auto">
             <Card className="bg-black/20 backdrop-blur-xl border border-white/10 shadow-2xl">
               <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-center mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
                       <span className="text-xl">💬</span>
                     </div>
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                    <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent text-center">
                       Ungithub Chat
                     </h1>
                   </div>
@@ -187,7 +192,7 @@ const handleSendMessage = async () => {
         <main className="flex-1 p-6 pb-32 overflow-y-auto scroll-smooth">
           <div className="w-full mx-auto max-w-4xl space-y-4">
             {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
+              <ChatMessage key={message.id} message={message} urlValue={urlValue} />
             ))}
             {isLoading && (
               <div className="flex justify-start mt-4">
