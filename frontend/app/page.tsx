@@ -100,8 +100,6 @@ export default function UngithubChat() {
 
       const data = await res.json()
 
-      console.log("data: ", data)
-
       if (res.status === 202 && data.status === "indexing") {
         // Repo is being indexed
         console.log("Repo is being indexed. Please wait...")
