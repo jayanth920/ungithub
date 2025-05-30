@@ -62,3 +62,4 @@ urllib3==2.4.0
 uvicorn==0.34.2
 websockets==15.0.1
 zstandard==0.23.0
+more-itertools

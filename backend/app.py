@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from urllib.parse import urlparse
-from embedding import get_embedding
+from embedding import get_question_embedding
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Request, BackgroundTasks, Query
@@ -134,8 +134,8 @@ def query_codebase(request: QueryRequest):
         logger.info(f"✅ Repo already indexed: {request.repo_url}")
 
     # Step 1: Get embedding for the user's question
-    embedding_obj = get_embedding(request.question)
-    embedding = embedding_obj.values  # ContentEmbedding object
+    embedding = get_question_embedding(request.question)
+
 
     # Step 2: Perform vector search
     results = collection.aggregate(

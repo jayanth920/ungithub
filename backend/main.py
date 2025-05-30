@@ -4,11 +4,15 @@ import shutil
 import os
 import sys
 import json
+import math
+import logging
 import certifi
 import tempfile
-import logging
+import tiktoken
+import time
 from pymongo import MongoClient
 from urllib.parse import urlparse
+from more_itertools import chunked
 
 
 # Local modules
@@ -16,7 +20,7 @@ from repo_cloner import clone_repo
 from file_scanner import get_code_files, read_and_metadata
 from chunker import split_into_chunks
 from save_jsonl import save_chunks_jsonl
-from embedding import get_embedding
+from embedding import get_embeddings  # Updated to batch embeddings
 
 # Load environment variables
 load_dotenv()
@@ -31,7 +35,19 @@ collection = client["unrepo"]["code_chunks"]
 app = FastAPI()
 
 # Logger setup
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("uvicorn")
+
+# Token truncation setup
+MAX_EMBED_TOKENS = 2048
+encoding = tiktoken.get_encoding("cl100k_base")
+
+def safe_truncate(text: str, max_tokens=MAX_EMBED_TOKENS) -> str:
+    tokens = encoding.encode(text)
+    if len(tokens) <= max_tokens:
+        return text
+    truncated = encoding.decode(tokens[:max_tokens])
+    return truncated
 
 def get_repo_id(repo_url: str) -> str:
     parts = urlparse(repo_url).path.strip("/").split("/")
@@ -40,18 +56,16 @@ def get_repo_id(repo_url: str) -> str:
     owner, repo = parts
     return f"{owner}/{repo}"
 
-
 def process_repo(repo_url):
     repo_id = get_repo_id(repo_url)  # e.g., "owner/repo"
     sanitized_repo_id = repo_id.replace("/", "__")  # safe for folder names
 
-    # Create a temporary working directory
     with tempfile.TemporaryDirectory() as temp_dir:
         repo_dir = clone_repo(repo_url, dest_dir=os.path.join(temp_dir, sanitized_repo_id))
-
         files = get_code_files(repo_dir)
-        all_chunks = []
+        logger.info("📂 Got all files")
 
+        all_chunks = []
         for file_path in files:
             meta = read_and_metadata(file_path, repo_dir, repo_id)
             if not meta:
@@ -66,31 +80,41 @@ def process_repo(repo_url):
                     "chunk_id": i
                 })
 
-        # Save JSONL to a unique path
         jsonl_path = os.path.join(temp_dir, f"{sanitized_repo_id}_chunks.jsonl")
         save_chunks_jsonl(all_chunks, path=jsonl_path)
 
-        # Insert chunks into MongoDB
+        # Insert to MongoDB with batching
         inserted_count = 0
+        BATCH_SIZE = 50
         with open(jsonl_path, "r") as f:
-            for line in f:
-                chunk = json.loads(line)
-                embedding = get_embedding(chunk["content"]).values
+            lines = [json.loads(line) for line in f]
+        
+        for batch in chunked(lines, BATCH_SIZE):
+            contents = [safe_truncate(chunk["content"]) for chunk in batch]
+            try:
+                embeddings = get_embeddings(contents)
+            except Exception as e:
+                logger.warning(f"⚠️ Skipping batch due to embedding error: {e}")
+                time.sleep(1)
+                continue
 
-                doc = {
-                    "repo_id": repo_id,
-                    "content": chunk["content"],
-                    "filepath": chunk["filepath"],
-                    "language": chunk["language"],
-                    "embedding": embedding
-                }
-                collection.insert_one(doc)
-                inserted_count += 1
+            for chunk, embedding in zip(batch, embeddings):
+                try:
+                    doc = {
+                        "repo_id": repo_id,
+                        "content": chunk["content"],
+                        "filepath": chunk["filepath"],
+                        "language": chunk["language"],
+                        "embedding": embedding
+                    }
+                    collection.insert_one(doc)
+                    inserted_count += 1
+                except Exception as e:
+                    logger.warning(f"❌ Failed to insert chunk: {e}")
+            time.sleep(0.5)  # gentle pacing between batches
 
         logger.info(f"✅ Inserted {inserted_count} chunks into MongoDB for repo '{repo_id}'")
         print(f"✅ Inserted {inserted_count} chunks into MongoDB for repo '{repo_id}'")
-
-    # All temp files auto cleaned here ✅
 
 # CLI entry
 if __name__ == "__main__":

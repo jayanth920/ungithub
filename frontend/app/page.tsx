@@ -89,7 +89,7 @@ export default function UngithubChat() {
     }, 10 * 1000)
 
     try {
-      const res = await fetch(`${PROD_URI}/query`, {
+      const res = await fetch(`${LOCAL_URI}/query`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ repo_url: urlValue, question: userMessage.content }),

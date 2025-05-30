@@ -10,3 +10,4 @@ def save_chunks_jsonl(data, path="data/chunks.jsonl"):
         for entry in data:
             f.write(json.dumps(entry) + "\n")
     logger.info(f"✅ Saved {len(data)} chunks to {path}")
+    print(f"✅ Saved {len(data)} chunks to {path}")
