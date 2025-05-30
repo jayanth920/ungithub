@@ -19,6 +19,7 @@ load_dotenv()
 
 # Logger setup
 logger = logging.getLogger("uvicorn")
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # MongoDB setup
 client = MongoClient(os.getenv("MONGODB_URI"), tlsCAFile=certifi.where())

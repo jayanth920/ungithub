@@ -9,6 +9,7 @@ import logging
 import certifi
 import tempfile
 import tiktoken
+from tqdm import tqdm
 import time
 from pymongo import MongoClient
 from urllib.parse import urlparse
@@ -48,6 +49,10 @@ def safe_truncate(text: str, max_tokens=MAX_EMBED_TOKENS) -> str:
         return text
     truncated = encoding.decode(tokens[:max_tokens])
     return truncated
+
+
+def count_tokens(text: str) -> int:
+    return len(encoding.encode(text))
 
 def get_repo_id(repo_url: str) -> str:
     parts = urlparse(repo_url).path.strip("/").split("/")
@@ -89,8 +94,14 @@ def process_repo(repo_url):
         with open(jsonl_path, "r") as f:
             lines = [json.loads(line) for line in f]
         
-        for batch in chunked(lines, BATCH_SIZE):
+        batches = list(chunked(lines, BATCH_SIZE))
+        for i, batch in enumerate(tqdm(batches, desc="🔄 Embedding", total=len(batches))):
             contents = [safe_truncate(chunk["content"]) for chunk in batch]
+            token_counts = [len(encoding.encode(text)) for text in contents]
+            total_tokens = sum(token_counts)
+            
+            tqdm.write(f"📦 Batch {i+1}/{len(batches)} - {len(batch)} chunks, {total_tokens} tokens")
+            
             try:
                 embeddings = get_embeddings(contents)
             except Exception as e:
