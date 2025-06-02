@@ -1,6 +1,6 @@
 # 🧠 ungithub
 
-**AI-powered codebase insight explorer** — just replace `github.com` with `ungithub.com` to unlock instant, smart analysis of any public repository.
+**AI-powered codebase insight explorer** — <!-- just replace `github.com` with `ungithub.com` (DOMAIN CURRENTLY NOT PURCHASED) --> Go to [ungithub.vercel.app](https://ungithub.vercel.app), to unlock instant, smart analysis of any public repository.
 
 > Example:  
 > 🔗 `https://github.com/vercel/next.js`  
@@ -10,7 +10,7 @@
 
 ## 🚀 What is ungithub?
 
-**ungithub** helps you deeply understand any open-source project with the help of AI. Whether you're onboarding to a new codebase or just exploring, simply paste a GitHub URL (or replace `github` with `ungithub`) and get:
+**ungithub** helps you deeply understand any open-source project with the help of AI. Whether you're onboarding to a new codebase or just exploring, simply paste a GitHub URL <!-- (or replace `github` with `ungithub`) (CURRENTLY DOMAIN NOT PURCHASED, GO TO THE [Website](https://ungithub.vercel.app)) -->to paste repo url and get:
 
 - 🔍 Auto-summarized repo insights
 - 🧠 AI-generated explanations of files, folders, and logic
@@ -84,50 +84,33 @@
 
 ---
 
-### ✅ Phase 5: Static Code Analysis Features
+### ✅ Phase 5: Optional Frontend
 
-- [ ] **Env Var Checker:**
-- [ ] Scan codebase for `process.env` / `os.environ` / `getenv` calls
-- [ ] Extract used env keys
-- [ ] Compare with `.env` / `.env.example` if present
-- [ ] Output missing or unused keys
-- [ ] **API Endpoint Extractor:**
-- [ ] Detect common route patterns (Express: `app.get('/route')`, Flask: `@app.route`)
-- [ ] Extract HTTP methods + routes + file path
-- [ ] Return as structured JSON
-- [ ] **Tech Stack Detector:**
-- [ ] Identify `package.json`, `requirements.txt`, `go.mod`, etc.
-- [ ] Parse and list major dependencies
+- [x] Scaffold a basic Next.js frontend
+- [x] Build form: Enter GitHub URL → triggers backend clone & index
+- [x] Build query input: Ask a question about the code
+- [x] Display AI result with file references
+- [x] List extracted endpoints, env vars, tech stack
+- [x] Add loading states and error handling
+- [x] Deploy frontend to Vercel (or keep CLI-only)
 
 ---
 
-### ✅ Phase 6: Optional Frontend
-
-- [ ] Scaffold a basic Next.js frontend
-- [ ] Build form: Enter GitHub URL → triggers backend clone & index
-- [ ] Build query input: Ask a question about the code
-- [ ] Display AI result with file references
-- [ ] List extracted endpoints, env vars, tech stack
-- [ ] Add loading states and error handling
-- [ ] Deploy frontend to Vercel (or keep CLI-only)
-
----
-
-## ✅ Phase 7: Export / Google Integration
+<!-- ## ✅ Phase 7: Export / Google Integration
 
 - [ ] Allow exporting insights (env vars, endpoints) to CSV or JSON
 - [ ] Optional: Use Google Sheets API to log results to a new sheet
 - [ ] Optional: Google Drive integration to upload results (PDF or summary)
 
----
+--- -->
 
-### ✅ Phase 8: Polish, Test, and Submit
+### ✅ Phase 6: Polish, Test, and Submit
 
-- [ ] Write clean README with install/setup/run instructions
+- [x] Write clean README with install/setup/run instructions
 - [ ] Add screenshots or Loom demo
 - [ ] Record 3-min demo video (host on YouTube/Vimeo)
-- [ ] Host backend (e.g., Render, Railway, Google Cloud Run)
-- [ ] Host frontend (e.g., Vercel)
+- [x] Host backend (e.g., Render, Railway, Google Cloud Run)
+- [x] Host frontend (e.g., Vercel)
 - [ ] Add project + repo URLs to Devpost
 - [ ] Submit before June 17 @ 4:00 PM CDT
 
