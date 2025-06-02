@@ -139,8 +139,8 @@ npm run dev
 
 ## 🌍 Deployment
 
-- **Frontend:** Vercel (https://ungithub.com)
-- **Backend:** Render / Fly.io / Railway
+- **Frontend:** Vercel [ungithub.vercel.app](https://ungithub.vercel.app)
+- **Backend:** Render
 - **Database:** MongoDB Atlas with Vector Search enabled
 
 ## 🧠 Inspiration
