@@ -153,7 +153,7 @@ PRs are welcome! Feel free to fork this repo and open issues for bugs or feature
 
 ## 📄 License
 
-MIT License
+[MIT License](https://github.com/jayanth920/ungithub/blob/main/LICENSE)
 
 ## 🙌 Built For
 
