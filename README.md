@@ -3,11 +3,12 @@
 **AI-powered codebase insight explorer** — <!-- just replace `github.com` with `ungithub.com` (DOMAIN CURRENTLY NOT PURCHASED) --> Go to [ungithub.vercel.app](https://ungithub.vercel.app), to unlock instant, smart analysis of any public repository.
 
 > Example:  
-> 🔗 `https://github.com/vercel/next.js`  
+> 🔗 `https://github.com/jayanth920/t2s-s2t`  
 > becomes  
-> 🔍 `https://ungithub.com/vercel/next.js`
+> 🔍 `https://ungithub.vercel.app/jayanth920/t2s-s2t`
 
-
+- Indexing takes just a few seconds to minutes depending on the repository size and backend startup. Once indexed, answers are delivered instantly.
+  
 ## 🚀 What is ungithub?
 
 **ungithub** helps you deeply understand any open-source project with the help of AI. Whether you're onboarding to a new codebase or just exploring, simply paste a GitHub URL <!-- (or replace `github` with `ungithub`) (CURRENTLY DOMAIN NOT PURCHASED, GO TO THE [Website](https://ungithub.vercel.app)) -->to paste repo url and get:
@@ -16,7 +17,6 @@
 - 🧠 AI-generated explanations of files, folders, and logic
 - 🧩 Embedding-based search across the entire repo
 - 📎 Ask questions about the code like ChatGPT — but repo-specific
-
 ---
 
 ## 🛠️ Tech Stack
