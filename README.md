@@ -18,7 +18,10 @@
 - 🧩 Embedding-based search across the entire repo
 - 📎 Ask questions about the code like ChatGPT - but repo-specific
 ---
+## Youtube Video
+[![Youtube Video](https://github.com/user-attachments/assets/86bc3617-1c56-4972-ac7b-9458131ac7d7)](https://www.youtube.com/watch?v=mHqkD2vhbLU)
 
+---
 ## 🛠️ Tech Stack
 
 | Layer        | Tech                          |
