@@ -1,6 +1,6 @@
 # 🧠 ungithub
 
-**AI-powered codebase insight explorer** — <!-- just replace `github.com` with `ungithub.com` (DOMAIN CURRENTLY NOT PURCHASED) --> Go to [ungithub.vercel.app](https://ungithub.vercel.app), to unlock instant, smart analysis of any public repository.
+**AI-powered codebase insight explorer** - <!-- just replace `github.com` with `ungithub.com` (DOMAIN CURRENTLY NOT PURCHASED) --> Go to [ungithub.vercel.app](https://ungithub.vercel.app), to unlock instant, smart analysis of any public repository.
 
 > Example:  
 > 🔗 `https://github.com/jayanth920/t2s-s2t`  
@@ -16,7 +16,7 @@
 - 🔍 Auto-summarized repo insights
 - 🧠 AI-generated explanations of files, folders, and logic
 - 🧩 Embedding-based search across the entire repo
-- 📎 Ask questions about the code like ChatGPT — but repo-specific
+- 📎 Ask questions about the code like ChatGPT - but repo-specific
 ---
 
 ## 🛠️ Tech Stack
