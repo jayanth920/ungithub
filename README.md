@@ -145,7 +145,7 @@ npm run dev
 
 ## 🧠 Inspiration
 
-Most devs struggle with onboarding into large codebases. We want to make codebases self-explanatory — like a smart dev mentor embedded into the repo itself.
+Most devs struggle with onboarding into large codebases. We want to make codebases self-explanatory - like a smart dev mentor embedded into the repo itself.
 
 ## 🤝 Contributing
 
