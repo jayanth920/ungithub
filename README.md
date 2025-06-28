@@ -107,12 +107,12 @@
 ### ✅ Phase 6: Polish, Test, and Submit
 
 - [x] Write clean README with install/setup/run instructions
-- [ ] Add screenshots or Loom demo
-- [ ] Record 3-min demo video (host on YouTube/Vimeo)
+- [x] Add screenshots or Loom demo
+- [x] Record 3-min demo video (host on YouTube/Vimeo)
 - [x] Host backend (e.g., Render, Railway, Google Cloud Run)
 - [x] Host frontend (e.g., Vercel)
-- [ ] Add project + repo URLs to Devpost
-- [ ] Submit before June 17 @ 4:00 PM CDT
+- [x] Add project + repo URLs to Devpost
+- [x] Submit before June 17 @ 4:00 PM CDT
 
 
 ---
